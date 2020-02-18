@@ -1,0 +1,78 @@
+{% extends 'bootstrap/base.html' %}
+{% block title %}Global Power Plant Insights{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <h1 style="padding-bottom: 8px; text-align: center;">Global Power Plant Insights</h1>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h2>Power Plant Statistics Entry</h2>
+</div>
+<form class="form-inline" action="{{ url_for('predict') }}" method="POST">
+    <div role="tabpanel" class="tab-pane active container-fluid">
+        <div class="row row-fluid" style="display: flex; justify-content: center;">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Capacity MW</h3>
+                    </div>
+                    <div class="panel-body">
+                        <input class="form-control" type="text" name="capacity" placeholder="Capacity MW" aria-describedby="capacityHelp">
+                    </div>
+                    <div class="panel-footer">
+                        <small id="capacityHelp" class="form-text text-muted">
+                            Capacity MW must be numeric. This metric references a power plant's peak performance.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Primary Fuel</h3>
+                    </div>
+                    <div class="panel-body">
+                        <select class="form-control" id="inputFuel" name="fuel">
+                            <option>Biomass</option>
+                            <option>Coal</option>
+                            <option>Gas</option>
+                            <option>Geothermal</option>
+                            <option>Hydro</option>
+                            <option>Nuclear</option>
+                            <option>Oil</option>
+                            <option>Solar</option>
+                            <option>Wind</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary mb-2" style="margin-left: 16px;">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% if result %}
+    <div class="container-fluid">
+        <h2 style="text-align: center;">Estimated Generation in GW/h</h2>
+        <div class="row row-fluid" style="display: flex; justify-content: center;">
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Estimated Generation</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ result }} Gigawatt/h
+                    </div>
+                    <div class="panel-footer">
+                        Capacity MW: {{ capacity }} | Primary Fuel: {{ fuel }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
